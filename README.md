@@ -13,7 +13,7 @@ iugu.setAuthorization('authorization_token')
 Para usar
 
 ```js
-iugu.api.customer.create({
+iugu.customer.create({
   'email': 'email@email.com',
   'name': 'Nome do Cliente',
   'notes': 'Anotações Gerais'
