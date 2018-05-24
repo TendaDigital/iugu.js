@@ -1,0 +1,11 @@
+{
+  "name": "iugu",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "lodash": "^4.17.5",
+    "require-smart": "^1.1.1"
+  }
+}
