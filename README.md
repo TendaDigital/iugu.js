@@ -2,11 +2,11 @@
 
 ## Instalação
 
-`npm install iugu.js`
+`npm install @tenda.digital/iugu`
 
 ## Exemplo de Uso
 ```js
-let iugu = require('iugu.js')
+let iugu = require('@tenda.digital/iugu')
 iugu.setAuthorization('authorization_token')
 ```
 
