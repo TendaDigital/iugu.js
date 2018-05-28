@@ -1,4 +1,4 @@
-require('@/helpers/customGenerators')({
+rootRequire('/helpers/customGenerators')({
   context: this,
   baseURL: '/web_hooks',
   methods: ['create', 'destroy', 'get', 'list', 'update'],

@@ -1,4 +1,4 @@
-require('@/helpers/customGenerators')({
+rootRequire('/helpers/customGenerators')({
   context: this,
   baseURL: '/invoices',
   methods: ['create', 'get', 'list'],

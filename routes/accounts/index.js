@@ -1,4 +1,4 @@
-require('@/helpers/customGenerators')({
+rootRequire('/helpers/customGenerators')({
   context: this,
   baseURL: '/accounts',
   methods: ['get'],

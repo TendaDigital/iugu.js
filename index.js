@@ -7,13 +7,9 @@ const helpers = requireSmart('./helpers')
 var Module = require('module')
 var originalRequire = Module.prototype.require
 
-Module.prototype.require = function (name, ...args) {
-  if (name.startsWith('@/')) {
-    let absolute = path.join(__dirname, name.substring(1))
-    return originalRequire.apply(this, [absolute, ...args])
-  }
-
-  return originalRequire.apply(this, arguments);
+global.rootRequire = function (name, ...args) {
+  let absolute = path.join(__dirname, name.substring(1))
+  return originalRequire.apply(this, [absolute, ...args])
 }
 
 module.exports = new Iugu()
