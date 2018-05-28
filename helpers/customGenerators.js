@@ -63,7 +63,7 @@ module.exports = function({ baseURL, methods, urlParams, context, custom }) {
         url: url
       }
 
-      if(data) query.data = data
+      query.data = params
 
       return this.axios(query)
     }
