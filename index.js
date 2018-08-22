@@ -54,6 +54,9 @@ function Iugu() {
     this.rebuildConnector()
   }
 
+  // deprecated method
+  this.setAuthorization = this.setBasicAuthorization
+
   this.setTokenAuthorization = (token) => {
     this.api_token = token
   }
