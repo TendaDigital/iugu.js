@@ -6,8 +6,10 @@
 
 ## Exemplo de Uso
 ```js
-let iugu = require('@tenda.digital/iugu')
-iugu.setAuthorization('authorization_token')
+const Iugu = require('@tenda.digital/iugu')
+let iugu = new Iugu()
+iugu.setBasicAuthorization('basic_auth_token')
+iugu.setTokenAuthorization('api_token')
 ```
 
 Para usar
