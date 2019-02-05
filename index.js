@@ -36,6 +36,10 @@ function Iugu() {
   })
 
   this.axios.interceptors.response.use((response) => {
+    if(response.data && response.data.errors) {
+      return Promise.reject(response.data.errors.join(','))
+    }
+
     return response.data
   }, function (error) {
     return Promise.reject(_.get(error, 'response.data', error))

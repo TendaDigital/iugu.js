@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 module.exports = function({ baseURL, methods, urlParams, context, custom }) {
   if(!urlParams) urlParams = []
   if(baseURL == null || !methods || !context) {
@@ -9,7 +11,7 @@ module.exports = function({ baseURL, methods, urlParams, context, custom }) {
     update : 'PUT',
     destroy: 'DELETE',
     list   : 'GET',
-    get    : 'GET', 
+    get    : 'GET',
   }
 
   // iterate on methods and check if we have a custom one
@@ -35,14 +37,15 @@ module.exports = function({ baseURL, methods, urlParams, context, custom }) {
   // generate custom functions
   if(custom && Object.keys(custom).length){
     Object.keys(custom).forEach(key => {
-      custom[key].baseURL = baseURL + custom[key].baseURL
-      generated[key] = generateGeneric(custom[key])
+      const value = _.get(custom , `${key}.baseURL`, '')
+      _.set(custom , `${key}.baseURL`, baseURL + value)
+      _.set(generated, key, generateGeneric(_.get(custom, key)))
     })
   }
 
   // set properties on context
   Object.keys(generated).forEach(key => {
-    context[key] = generated[key]
+    _.set(context, key, _.get(generated, key))
   })
 
   function generateGeneric({ baseURL, method, urlParams }){
