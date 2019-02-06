@@ -3,6 +3,7 @@ const path = require('path')
 const Axios = require('axios')
 const requireSmart = require('require-smart')
 const helpers = requireSmart('./helpers')
+const IuguError = require('./errors/IuguError')
 
 var Module = require('module')
 var originalRequire = Module.prototype.require
@@ -16,7 +17,7 @@ module.exports = Iugu
 
 function Iugu() {
   this.baseURL = 'https://api.iugu.com/v1'
-  this.timeout = 5000
+  this.timeout = 15000
   this.headers = { Accept: 'application/json, text/plain, */*' }
   this.helpers = helpers
   this.api_token = null
@@ -37,16 +38,32 @@ function Iugu() {
 
   this.axios.interceptors.response.use((response) => {
     if(response.data && response.data.errors) {
-      return Promise.reject(response.data.errors.join(','))
+      const error = response.data
+      const msg = _.get(response, 'statusText', 'Empty Message')
+      return Promise.reject(new IuguError(msg, error))
     }
 
     return response.data
   }, function (error) {
-    return Promise.reject(_.get(error, 'response.data', error))
+    const msg = _.get(error.response, 'statusText', 'Empty Message')
+    // get request params
+    const requestParams = _.pick(error.response.config, ['method', 'baseURL', 'url', 'data', 'params'])
+    _.unset(requestParams, 'params.api_token')
+
+    // get error
+    error = _.get(error, 'response.data', {})
+    error.request = requestParams
+
+    return Promise.reject(new IuguError(msg, error))
   })
 
   this.setHeaders = (headers) => {
     this.headers = headers
+    this.rebuildConnector()
+  }
+
+  this.setTimeout = (timeout) => {
+    this.timeout = timeout
     this.rebuildConnector()
   }
 
