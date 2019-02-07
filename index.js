@@ -37,10 +37,11 @@ function Iugu() {
   })
 
   this.axios.interceptors.response.use((response) => {
-    if(response.data && response.data.errors) {
+
+    if(response.data && response.data.errors && !['{}', '[]'].includes(JSON.stringify(response.data.errors))) {
       const error = response.data
       const msg = _.get(response, 'statusText', 'Empty Message')
-      return Promise.reject(new IuguError(msg, error))
+      return Promise.reject(new IuguError(msg, Object.assign({jsonPayload: JSON.stringify(error)}, error)))
     }
 
     return response.data
