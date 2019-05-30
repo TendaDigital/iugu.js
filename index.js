@@ -47,9 +47,13 @@ function Iugu() {
     return response.data
   }, function (error) {
     const msg = _.get(error.response, 'statusText', 'Empty Message')
+
     // get request params
-    const requestParams = _.pick(error.response.config, ['method', 'baseURL', 'url', 'data', 'params'])
-    _.unset(requestParams, 'params.api_token')
+    let requestParams = null
+    if (error.response) {
+      requestParams = _.pick(error.response.config, ['method', 'baseURL', 'url', 'data', 'params'])
+      _.unset(requestParams, 'params.api_token')
+    }
 
     // get error
     error = _.get(error, 'response.data', {})
